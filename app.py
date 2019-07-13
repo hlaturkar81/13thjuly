@@ -1,1 +1,3 @@
-print ("Hello")
+
+irint ("Hello")
+print ("Hi")
