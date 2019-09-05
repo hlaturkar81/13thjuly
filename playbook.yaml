@@ -5,18 +5,23 @@
   - name: install apache2 on ubuntu
     apt: name=apache2 state=present update_cache=yes
     when: ansible_distribution== "Ubuntu"
+    notify: restart_apache2
 
   - name: instal httpd on centos
     yum: name=httpd state=present update_cache=yes
     when: ansible_distribution== "CentOS"
+    notify: restart_httpd
 
-  - name: restart apache2 on ubuntu
+  - name: deploy index.html
+    copy: src=/etc/ansible/playbooks/index.html dest=/var/www/html/index.html
+
+  handlers: 
+  - name: restart_apache2
     service: name=apache2 state=restarted
     when: ansible_distribution== "Ubuntu"
 
-  - name: restart httpd on centos
+  - name: restart_httpd 
     service: name=httpd state=restarted
     when: ansible_distribution== "CentOS"
 
-  - name: deploy index.html
-    copy: src=/etc/ansible/playbooks/index.html dest=/var/www/html/index.html 
+ 
